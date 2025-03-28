@@ -73,8 +73,14 @@ export const addBook = async (req, res, next) => {
             review
         } = req.body;
 
-        // Implement the authenticated user --> 
-        //const userId = req.user.id;
+        //Check if user exists
+        if (!req.user) {
+            return res.status(401).json({
+                success: false,
+                message: "User not authenticated"
+            })
+        }
+        const userId = req.user.id;
 
         const book = await prisma.book.create({
             data: {
@@ -112,8 +118,8 @@ export const addBook = async (req, res, next) => {
                         content: review.content,
                         rating: review.rating,
                         user: {
-                            create: {
-                                id: xyz
+                            connect: {
+                                id: userId
                             }
                         }
                     }
@@ -122,11 +128,7 @@ export const addBook = async (req, res, next) => {
             include: {
                 category: true,
                 publisher: true,
-                reviews: {
-                    include: {
-                        user: true
-                    }
-                }
+                reviews: true
             }
         })
 

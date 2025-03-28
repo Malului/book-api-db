@@ -8,6 +8,7 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.routes.js";
 
 import errorMiddleware from "./middleware/error.middleware.js";
+import arcjetMiddleware from "./middleware/arcjet.middleware.js";
 
 
 const app = express()
@@ -17,7 +18,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 app.use(cookieParser())
 
-// Auth middleware
+// Arcjet middleware
+app.use(arcjetMiddleware)
 
 
 //All Routes --> Starting with auth, user, books, others
