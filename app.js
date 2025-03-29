@@ -6,6 +6,7 @@ import "dotenv/config";
 import bookRouter from "./routes/book.routes.js";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.routes.js";
+import reviewRouter from "./routes/reviews.routes.js";
 
 import errorMiddleware from "./middleware/error.middleware.js";
 import arcjetMiddleware from "./middleware/arcjet.middleware.js";
@@ -26,6 +27,7 @@ app.use(arcjetMiddleware)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/books', bookRouter)
+app.use('/api/v1/reviews', reviewRouter)
 
 
 //Error Middleware

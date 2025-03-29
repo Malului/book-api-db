@@ -162,7 +162,28 @@ export const login = async (req, res, next) => {
 }
 
 export const logout = async (req, res, next) => {
-    
+    //clear cookie token in cache
+
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict'
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Logged out successfully"
+        })
+    } catch (error) {
+        console.error(error);
+
+        return res.status(400).json({
+            success: false,
+            message: "Error logging out",
+            error: error.message
+        })
+    }
 }
 
 export const viewProfile = async (req, res, next) => {

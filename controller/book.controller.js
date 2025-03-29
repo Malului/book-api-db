@@ -8,7 +8,15 @@ export const viewAllBooks = async (req, res, next) => {
     //if true res
 
     try {
-        const books = await prisma.book.findMany();
+        const books = await prisma.book.findMany({
+            select: {
+                id: true,
+                title: true,
+                author: true,
+                isbn: true,
+                reviews: true
+            }
+        });
 
         if(!books) {
             const error = new Error("Could not fetch the books");
@@ -33,13 +41,31 @@ export const viewOneBook = async (req, res, next) => {
     //if true res
 
     try {
-        const book = await prisma.book.findUnique({
+        const foundBook = await prisma.book.findUnique({
             where: {
                 id: req.params.id
+            },
+            select: {
+                id: true,
+                title: true,
+                author: true,
+                reviews: {
+                    select: {
+                        id: true,
+                        content: true,
+                        rating: true,
+                        user: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                }
             }
         })
 
-        if(!book) {
+        if(!foundBook) {
             const error = new Error("Book is not available");
             error.statusCode = 404;
             throw error;
@@ -47,7 +73,7 @@ export const viewOneBook = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            data: book
+            data: foundBook
         })
 
     } catch (error) {
