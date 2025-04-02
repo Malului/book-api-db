@@ -7,6 +7,7 @@ Book Management API built with Express.js, Prisma ORM, and Node.js. It will help
 ## Features
 
 - Prisma ORM Integration
+- Automated email workflow
 - User Authentication
 - Book CRUD Operations
 - Review Management
@@ -23,6 +24,7 @@ Book Management API built with Express.js, Prisma ORM, and Node.js. It will help
 
 - **Backend**: Express.js
 - **ORM**: Prisma
+- **Workflow**: Upstash
 - **Authentication**: JSON Web Tokens (JWT)
 - **Encryption**: Bcryptjs
 - **Database**: MySQL
@@ -54,6 +56,8 @@ JWT_SECRET="your_jwt_secret_key"
 JWT_EXPIRES_IN="time"
 ARCJET_KEY=<your_acjet_api_key>
 ARCJET_ENV=<your_environment>
+QSTASH_URL=<your_token_url>
+QSTASH_TOKEN=<your_token_key>
 ```
 
 ### 4. Database Setup
@@ -126,3 +130,6 @@ The application uses a centralized error middleware to handle and standardize er
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## License
+
+This project is licensed under the **MIT License**.  

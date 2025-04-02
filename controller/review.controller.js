@@ -1,4 +1,5 @@
 import prisma from "../prisma.js";
+import { triggerSendReviewEmail } from "./upstash.controller.js";
 
 
 export const allBookReviews = async (req, res, next) => {
@@ -123,7 +124,8 @@ export const reviewBook = async (req, res, next) => {
                     user: {
                         select: {
                             id: true,
-                            name: true
+                            name: true,
+                            email: true
                         }
                     },
                     book: {
@@ -145,10 +147,14 @@ export const reviewBook = async (req, res, next) => {
             return { bookReview }
         })
 
-
+        const { workflowRunId } = await triggerSendReviewEmail(result.bookReview.id)
+        
         res.status(201).json({
             success: true,
-            data: result
+            data: {
+                result,
+                workflowRunId
+            }
         })
     } catch (error) {
         if (error.statusCode === 404) {
